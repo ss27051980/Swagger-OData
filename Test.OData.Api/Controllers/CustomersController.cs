@@ -15,11 +15,13 @@ using System.Web.Http.Description;
 namespace Test.OData.Api.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = false)]
+    [RoutePrefix("odata/Customers")]
     public class CustomersController : ODataController
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
         // GET: odata/Customers
+        [Route("")]
         public IHttpActionResult GetCustomers(ODataQueryOptions<Customer> queryOptions)
         {
             // validate the query.
@@ -45,6 +47,7 @@ namespace Test.OData.Api.Controllers
         //}
 
         // PUT: odata/Customers(5)
+        [Route("({key})")]
         public IHttpActionResult Put([FromODataUri] string key, Delta<Customer> delta)
         {
             Validate(delta.GetEntity());
@@ -65,6 +68,7 @@ namespace Test.OData.Api.Controllers
         }
 
         // POST: odata/Customers
+        [Route("")]
         public IHttpActionResult Post(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -80,6 +84,7 @@ namespace Test.OData.Api.Controllers
 
         // PATCH: odata/Customers(5)
         [AcceptVerbs("PATCH", "MERGE")]
+        [Route("({key})")]
         public IHttpActionResult Patch([FromODataUri] string key, Delta<Customer> delta)
         {
             Validate(delta.GetEntity());
@@ -100,6 +105,7 @@ namespace Test.OData.Api.Controllers
         }
 
         // DELETE: odata/Customers(5)
+        [Route("({key})")]
         public IHttpActionResult Delete([FromODataUri] string key)
         {
             // TODO: Add delete logic here.
