@@ -20,7 +20,6 @@ using Test.OData.Api.Results;
 namespace Test.OData.Api.Controllers
 {
     [Authorize]
-    [RoutePrefix("odata/Account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";

@@ -11,17 +11,16 @@ using System.IO;
 using System;
 using System.Linq;
 using System.Web.Http.Description;
+using System.Web.OData.Routing;
 
 namespace Test.OData.Api.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = false)]
-    [RoutePrefix("odata/Customers")]
     public class CustomersController : ODataController
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
         // GET: odata/Customers
-        [Route("")]
         public IHttpActionResult GetCustomers(ODataQueryOptions<Customer> queryOptions)
         {
             // validate the query.
@@ -39,15 +38,19 @@ namespace Test.OData.Api.Controllers
             return Ok<IEnumerable<Customer>>(list);
         }
 
+        private IHttpActionResult Ok<T>(Func<T> asQueryable)
+        {
+            throw new NotImplementedException();
+        }
+
         //public IQueryable<Customer> GetCustomer([FromODataUri] Guid key)
         //{
         //    var json = File.ReadAllText(HttpContext.Current.Server.MapPath(@"~/App_Data/data.json"));
         //    var list = JsonConvert.DeserializeObject<List<Customer>>(json);
-        //    return list.Where(x=> x.Id == key).AsQueryable();
+        //    return list.Where(x => x.Id == key).AsQueryable();
         //}
 
         // PUT: odata/Customers(5)
-        [Route("({key})")]
         public IHttpActionResult Put([FromODataUri] string key, Delta<Customer> delta)
         {
             Validate(delta.GetEntity());
@@ -68,7 +71,6 @@ namespace Test.OData.Api.Controllers
         }
 
         // POST: odata/Customers
-        [Route("")]
         public IHttpActionResult Post(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -84,7 +86,6 @@ namespace Test.OData.Api.Controllers
 
         // PATCH: odata/Customers(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        [Route("({key})")]
         public IHttpActionResult Patch([FromODataUri] string key, Delta<Customer> delta)
         {
             Validate(delta.GetEntity());
@@ -105,7 +106,6 @@ namespace Test.OData.Api.Controllers
         }
 
         // DELETE: odata/Customers(5)
-        [Route("({key})")]
         public IHttpActionResult Delete([FromODataUri] string key)
         {
             // TODO: Add delete logic here.
